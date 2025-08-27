@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eBoard Solutions Forum</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: #ffffff;
+            overflow: hidden;
+            line-height: 1.6;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            background: rgba(255, 255, 255, 0.98);
+            color: #1f2937;
+            border-radius: 0;
+            margin: 0;
+            padding: 80px;
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        .slide.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide h1 {
+            color: #1f2937;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            text-align: center;
+            letter-spacing: -0.02em;
+            border-bottom: 4px solid #3b82f6;
+            padding-bottom: 30px;
+        }
+
+        .slide h2 {
+            color: #374151;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin: 40px 0 30px 0;
+            text-align: center;
+        }
+
+        .slide h3 {
+            color: #4b5563;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 30px 0 20px 0;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.4rem;
+            color: #6b7280;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .slide ul {
+            margin-left: 40px;
+            margin-bottom: 40px;
+        }
+
+        .slide li {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            padding: 40px;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px -5px rgba(59, 130, 246, 0.2);
+            border-color: #3b82f6;
+            background: #f0f8ff;
+        }
+
+        .feature-card h3 {
+            color: #1f2937;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .feature-card .icon {
+            font-size: 2.5rem;
+            color: #3b82f6;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #374151;
+            border: 2px solid #3b82f6;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 18px;
+            z-index: 1000;
+        }
+
+        .presenter-info {
+            text-align: center;
+            margin-top: 100px;
+            padding: 50px;
+            background: #f8fafc;
+            border-radius: 20px;
+        }
+
+        .agenda-section {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 50px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .agenda-section ul {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .agenda-section li {
+            padding: 20px 0;
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .agenda-section li:hover {
+            color: #3b82f6;
+        }
+
+        .benefits-list {
+            font-size: 1.6rem;
+            line-height: 2;
+            margin: 40px 0;
+        }
+
+        .benefits-list li {
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            color: #1d4ed8;
+            padding: 5px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 50px 40px;
+            }
+            .slide h1 { 
+                font-size: 2.8rem; 
+            }
+            .slide h2 { 
+                font-size: 2rem; 
+            }
+            .features-grid { 
+                grid-template-columns: 1fr; 
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">5</span>
+    </div>
+
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>eBoard Solutions Forum</h1>
+            
+            <div class="presenter-info">
+                <h2>Digital Board Governance</h2>
+                <p style="font-size: 1.8rem; color: #6b7280; margin: 30px 0;">
+                    Presented by: <span class="highlight">Kamau David</span>
+                </p>
+            </div>
+            
+            <div class="agenda-section">
+                <h3>Today's Agenda</h3>
+                <ul>
+                    <li onclick="goToSlide(2)">Meeting Management Solutions</li>
+                    <li onclick="goToSlide(3)">Digital Tools Overview</li>
+                    <li onclick="goToSlide(4)">Implementation Benefits</li>
+                    <li onclick="goToSlide(5)">Board Discussion</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 2: Meeting Management -->
+        <div class="slide">
+            <h1>Meeting Management Solutions</h1>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3><span class="icon">📅</span>Agenda Management</h3>
+                    <p>Streamlined meeting preparation</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3><span class="icon">📂</span>Document Repository</h3>
+                    <p>Centralized secure storage</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3><span class="icon">📋</span>Board Papers</h3>
+                    <p>Professional document workflows</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3><span class="icon">🗳️</span>Digital Voting</h3>
+                    <p>Secure electronic decisions</p>
+                </div>
+            </div>
+
+            <h2>Core Benefits</h2>
+            <ul class="benefits-list">
+                <li>Paperless meeting operations</li>
+                <li>60% time savings</li>
+                <li>Enhanced security protocols</li>
+                <li>Remote board participation</li>
+                <li>Automated compliance reporting</li>
+            </ul>
+        </div>
+
+        <!-- Slide 3: Digital Tools -->
+        <div class="slide">
+            <h1>Digital Tools Overview</h1>
+            
+            <h2>E-Signing & Minutes</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3><span class="icon">✍️</span>E-Signing</h3>
+                    <p>Legal digital signatures</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3><span class="icon">📝</span>Automated Minutes</h3>
+                    <p>AI-powered meeting records</p>
+                </div>
+            </div>
+
+            <h2>Key Features</h2>
+            <ul class="benefits-list">
+                <li>Real-time collaboration tools</li>
+                <li>Version control systems</li>
+                <li>Audit trail documentation</li>
+                <li>Mobile access capabilities</li>
+                <li>Calendar integration support</li>
+            </ul>
+        </div>
+
+        <!-- Slide 4: Implementation -->
+        <div class="slide">
+            <h1>Implementation Benefits</h1>
+            
+            <h2>Complete Meeting Workflow</h2>
+            <ul class="benefits-list">
+                <li>Pre-meeting document distribution</li>
+                <li>Live meeting management</li>
+                <li>Post-meeting action tracking</li>
+                <li>Secure document archiving</li>
+                <li>Compliance report generation</li>
+            </ul>
+
+            <h2>Business Impact</h2>
+            <ul class="benefits-list">
+                <li>75% cost reduction</li>
+                <li>Enhanced board engagement</li>
+                <li>Improved governance standards</li>
+                <li>Better decision tracking</li>
+                <li>Regulatory compliance assurance</li>
+            </ul>
+        </div>
+
+        <!-- Slide 5: Discussion -->
+        <div class="slide">
+            <h1>Board Discussion</h1>
+            
+            <h2>Future of Digital Boards</h2>
+            <ul class="benefits-list">
+                <li>African market opportunities</li>
+                <li>Pan-continental board meetings</li>
+                <li>Mobile-first governance solutions</li>
+                <li>Enhanced stakeholder engagement</li>
+                <li>Sustainable governance practices</li>
+            </ul>
+
+            <div style="text-align: center; margin-top: 80px; padding: 50px; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white; border-radius: 20px;">
+                <h2 style="color: white; margin-bottom: 30px;">Questions & Discussion</h2>
+                <p style="font-size: 1.5rem;">How can eBoard solutions transform your board meetings?</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+        <button class="nav-btn" id="homeBtn" onclick="goToSlide(1)">🏠 Home</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = document.querySelectorAll('.slide').length;
+        
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            
+            if (n > totalSlides) currentSlide = 1;
+            if (n < 1) currentSlide = totalSlides;
+            
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            slides[currentSlide - 1].classList.add('active');
+            
+            document.getElementById('current-slide').textContent = currentSlide;
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+
+        function changeSlide(n) {
+            currentSlide += n;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(n) {
+            currentSlide = n;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                changeSlide(-1);
+            }
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                changeSlide(1);
+            }
+            if (e.key >= '1' && e.key <= '5') {
+                e.preventDefault();
+                goToSlide(parseInt(e.key));
+            }
+        });
+
+        // Initialize
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
