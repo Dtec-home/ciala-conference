@@ -34,9 +34,24 @@
             background: 
                 radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(34, 197, 94, 0.1) 0%, transparent 50%);
+                radial-gradient(circle at 40% 40%, rgba(34, 197, 94, 0.1) 0%, transparent 50%),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.03"><circle cx="50" cy="50" r="2" fill="%23ffffff"/><circle cx="20" cy="20" r="1" fill="%23ffffff"/><circle cx="80" cy="30" r="1.5" fill="%23ffffff"/><circle cx="30" cy="80" r="1" fill="%23ffffff"/><circle cx="70" cy="70" r="2" fill="%23ffffff"/></svg>');
             z-index: -1;
             animation: float 20s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 40%, rgba(59, 130, 246, 0.02) 50%, transparent 60%),
+                linear-gradient(-45deg, transparent 40%, rgba(147, 51, 234, 0.02) 50%, transparent 60%);
+            z-index: -1;
+            animation: float 25s ease-in-out infinite reverse;
         }
 
         @keyframes float {
@@ -252,6 +267,12 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             transition: transform 0.3s ease;
+        }
+
+        .feature-card .icon svg {
+            width: 3rem;
+            height: 3rem;
+            stroke: url(#iconGradient);
         }
 
         .feature-card:hover .icon {
@@ -515,9 +536,148 @@
         .slide::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(135deg, #2563eb, #7c3aed);
         }
+
+        .stat-highlight {
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .stat-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .stat-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 4px;
+            animation: fillBar 2s ease-out;
+        }
+
+        @keyframes fillBar {
+            from { width: 0%; }
+            to { width: var(--final-width); }
+        }
+
+        .workflow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin: 60px 0;
+            flex-wrap: wrap;
+        }
+
+        .workflow-step {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            min-width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .workflow-step:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .step-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step-icon svg {
+            width: 30px;
+            height: 30px;
+            stroke: white;
+        }
+
+        .workflow-step h4 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 10px;
+        }
+
+        .workflow-step p {
+            font-size: 1.1rem;
+            color: #cbd5e0;
+            margin: 0;
+        }
+
+        .workflow-arrow {
+            font-size: 2rem;
+            color: #3b82f6;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        @media (max-width: 768px) {
+            .workflow-diagram {
+                flex-direction: column;
+            }
+            .workflow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-placeholder {
+            display: inline-block;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .logo-placeholder svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 10px 25px rgba(59, 130, 246, 0.3));
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
     </style>
 </head>
 <body>
+    <svg width="0" height="0">
+        <defs>
+            <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#3b82f6"/>
+                <stop offset="100%" stop-color="#8b5cf6"/>
+            </linearGradient>
+            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#3b82f6"/>
+                <stop offset="50%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#3b82f6"/>
+            </linearGradient>
+        </defs>
+    </svg>
     <div class="progress-bar" id="progressBar"></div>
     
     <div class="slide-counter">
@@ -527,6 +687,14 @@
     <div class="presentation-container">
         <!-- Slide 1: Title -->
         <div class="slide active">
+            <div class="logo-container">
+                <div class="logo-placeholder">
+                    <svg viewBox="0 0 120 120" fill="none">
+                        <rect x="10" y="10" width="100" height="100" rx="20" fill="url(#logoGradient)" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+                        <text x="60" y="70" text-anchor="middle" fill="white" font-size="24" font-weight="bold" font-family="Inter">eB</text>
+                    </svg>
+                </div>
+            </div>
             <h1>eBoard Solutions Forum</h1>
             
             <div class="presenter-info">
@@ -553,22 +721,22 @@
             
             <div class="features-grid">
                 <div class="feature-card">
-                    <h3><span class="icon">📅</span>Agenda Management</h3>
+                    <h3><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>Agenda Management</h3>
                     <p>Streamlined meeting preparation</p>
                 </div>
                 
                 <div class="feature-card">
-                    <h3><span class="icon">📂</span>Document Repository</h3>
+                    <h3><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span>Document Repository</h3>
                     <p>Centralized secure storage</p>
                 </div>
                 
                 <div class="feature-card">
-                    <h3><span class="icon">📋</span>Board Papers</h3>
+                    <h3><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg></span>Board Papers</h3>
                     <p>Professional document workflows</p>
                 </div>
                 
                 <div class="feature-card">
-                    <h3><span class="icon">🗳️</span>Digital Voting</h3>
+                    <h3><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-4"/><polyline points="9,11 12,14 15,11"/><line x1="12" y1="14" x2="12" y2="3"/></svg></span>Digital Voting</h3>
                     <p>Secure electronic decisions</p>
                 </div>
             </div>
@@ -576,7 +744,11 @@
             <h2>Core Benefits</h2>
             <ul class="benefits-list">
                 <li>Paperless meeting operations</li>
-                <li>60% time savings</li>
+                <li class="stat-highlight">60% time savings
+                    <div class="stat-bar">
+                        <div class="stat-fill" style="width: 60%"></div>
+                    </div>
+                </li>
                 <li>Enhanced security protocols</li>
                 <li>Remote board participation</li>
                 <li>Automated compliance reporting</li>
@@ -590,12 +762,12 @@
             <h2>E-Signing & Minutes</h2>
             <div class="features-grid">
                 <div class="feature-card">
-                    <h3><span class="icon">✍️</span>E-Signing</h3>
+                    <h3><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span>E-Signing</h3>
                     <p>Legal digital signatures</p>
                 </div>
                 
                 <div class="feature-card">
-                    <h3><span class="icon">📝</span>Automated Minutes</h3>
+                    <h3><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg></span>Automated Minutes</h3>
                     <p>AI-powered meeting records</p>
                 </div>
             </div>
@@ -615,17 +787,50 @@
             <h1>Implementation Benefits</h1>
             
             <h2>Complete Meeting Workflow</h2>
-            <ul class="benefits-list">
-                <li>Pre-meeting document distribution</li>
-                <li>Live meeting management</li>
-                <li>Post-meeting action tracking</li>
-                <li>Secure document archiving</li>
-                <li>Compliance report generation</li>
-            </ul>
+            <div class="workflow-diagram">
+                <div class="workflow-step">
+                    <div class="step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14,2 14,8 20,8"/>
+                        </svg>
+                    </div>
+                    <h4>Pre-Meeting</h4>
+                    <p>Document distribution</p>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">
+                    <div class="step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h4>Live Meeting</h4>
+                    <p>Real-time management</p>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">
+                    <div class="step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9,11 12,14 22,4"/>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                        </svg>
+                    </div>
+                    <h4>Post-Meeting</h4>
+                    <p>Action tracking</p>
+                </div>
+            </div>
 
             <h2>Business Impact</h2>
             <ul class="benefits-list">
-                <li>75% cost reduction</li>
+                <li class="stat-highlight">75% cost reduction
+                    <div class="stat-bar">
+                        <div class="stat-fill" style="width: 75%"></div>
+                    </div>
+                </li>
                 <li>Enhanced board engagement</li>
                 <li>Improved governance standards</li>
                 <li>Better decision tracking</li>
